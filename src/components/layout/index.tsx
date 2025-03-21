@@ -3,7 +3,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import gsap, { Power2, Back } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { SplitText } from "gsap-trial/all";
+import CustomSplitText from "../../utils/splitText"; // Import your custom SplitText
 import Cursor from "../global/magicCursor";
 import Preloader from "../global/preloader";
 import Header from "../global/header";
@@ -11,15 +11,16 @@ import FooterCTA from "../global/footerCta";
 import Footer from "../global/footer";
 
 // Register ScrollTrigger immediately after importing
-gsap.registerPlugin(ScrollTrigger, SplitText);
+gsap.registerPlugin(ScrollTrigger);
 
 const Layout = () => {
   const location = useLocation();
+  
   useGSAP(() => {
     gsap.utils.toArray(".text-anime-style-1").forEach((e: any) => {
       let staggerAmount = 0.05,
         delayValue = 0.5;
-      let animationSplitText = new SplitText(e, { type: "chars, words" });
+      let animationSplitText = new CustomSplitText(e, { type: "words" });
       gsap.from(animationSplitText.words, {
         duration: 1,
         delay: delayValue,
@@ -34,7 +35,7 @@ const Layout = () => {
       let staggerAmount = 0.03,
         translateXValue = 20,
         delayValue = 0.1;
-      let animationSplitText = new SplitText(e, { type: "chars, words" });
+      let animationSplitText = new CustomSplitText(e, { type: "chars,words" });
       gsap.from(animationSplitText.chars, {
         duration: 1,
         delay: delayValue,
@@ -52,7 +53,7 @@ const Layout = () => {
         element.split.revert();
       }
 
-      element.split = new SplitText(element, {
+      element.split = new CustomSplitText(element, {
         type: "lines,words,chars",
         linesClass: "split-line",
       });
@@ -91,7 +92,6 @@ const Layout = () => {
 
     // Reveal animations
     gsap.utils.toArray(".reveal").forEach((container: any) => {
-      gsap.registerPlugin(ScrollTrigger);
       let image =
         container.querySelector("img") || container.querySelector("video");
 
@@ -120,6 +120,7 @@ const Layout = () => {
       });
     });
   }, [location]);
+  
   return (
     <>
       <Cursor />
