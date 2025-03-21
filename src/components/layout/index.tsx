@@ -124,7 +124,9 @@ const Layout = () => {
   return (
     <>
       <Cursor />
+      <div className="md:block hidden">
       <Preloader />
+      </div>
       <Header />
       <Outlet />
       <FooterCTA />
